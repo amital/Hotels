@@ -1,0 +1,8 @@
+<#@ template language="C#" debug="false" hostspecific="true"#>
+<#@ include file=".\DtoGenerator.ttinclude"#>
+
+<#@ output extension=".cs"#>
+<#
+    var generator = new DtoGenerator(this, Host);
+    generator.Generate("Contracts", "Payoneer.Payoneer.Hotels.Contracts");
+#>

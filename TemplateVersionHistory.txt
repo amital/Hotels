@@ -1,0 +1,16 @@
+1.0.0:
+	Release date 2017-12-07
+	Changes RabbitMQ message model-contract separation
+	Clear cache multi instance support
+	Health check support
+1.0.1:
+	Support Owin and Unity 5.0
+1.0.2:
+	Add model contract mapping tests
+	Use ExcludeFromCodeCoverage attribute to ignore irrelevant classes in coverage
+2.0.0:
+	Make template more lightweight
+	RabbitMq worker version will become a flavor
+	Renamed 'Contracts' to 'Contracts.Internal' and 'Contracts.NuGet' to 'Contracts'
+2.0.1:
+	REST best practices - Set the ApiController to return IHttpActionResult with the proper response codes

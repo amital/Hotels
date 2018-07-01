@@ -1,0 +1,26 @@
+[
+  {
+    "Name": "Hotels",
+    "Description": "The name of the service application",
+    "Type": 7,
+    "Value": "Hotels",
+    "Filter": "*",
+    "Mandatory": true
+  },
+  {
+    "Name": "Payoneer",
+    "Description": "The domain name of the application",
+    "Type": 7,
+    "Value": "Payoneer",
+    "Filter": "*",
+    "Mandatory": true
+  },
+  {
+    "Name": "RV_Year_RV",
+    "Description": "Current Year - for copyright",
+    "Type": 1,
+    "Value": "2018",
+    "Filter": "VersionInfo.cs",
+    "Mandatory": false
+  }
+]

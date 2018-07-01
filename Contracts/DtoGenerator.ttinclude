@@ -1,0 +1,234 @@
+﻿<#@ assembly name="System.Core" #>
+<#@ assembly name="System.Runtime.Serialization, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
+<#@ assembly name="System.Xml" #>
+<#@ import namespace="Microsoft.VisualStudio.TextTemplating" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="System.IO" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Reflection" #>
+<#@ import namespace="System.Runtime.Serialization" #>
+<#@ import namespace="System.Text"#>
+<#@ include file="EF.Utility.CS.ttinclude"#>
+
+<#+
+    private class DtoGenerator
+    {
+		private static readonly Lazy<System.Resources.ResourceManager> ResourceManager =
+			new Lazy<System.Resources.ResourceManager>(
+				() => new System.Resources.ResourceManager("System.Data.Entity.Design", typeof(MetadataItemCollectionFactory).Assembly), isThreadSafe: true);
+
+        private readonly TextTransformation textTransform;
+        private readonly EntityFrameworkTemplateFileManager fileManager;
+		private readonly ITextTemplatingEngineHost Host;
+        private readonly Type[] attributesToCopy;
+
+        public DtoGenerator(object textTransform, ITextTemplatingEngineHost host, params Type[] attributesToCopy)
+		{
+			this.textTransform = textTransform as TextTransformation;
+			this.fileManager = EntityFrameworkTemplateFileManager.Create(textTransform);
+            this.Host = host;
+            this.attributesToCopy =
+                attributesToCopy.Union(new[] { typeof(DataMemberAttribute), typeof(DataContractAttribute) })
+                    .ToArray();
+		}
+        public void Write(string text)
+		{
+			this.textTransform.Write(text);
+		}
+
+        public void Generate(string folderName, string assemblyName)
+        {
+            var inputAssembly = GetAssembly(folderName, assemblyName);
+
+            if (inputAssembly == null)
+            {
+                Write("// No assembly found");
+                return;
+            }
+
+            var types = inputAssembly.GetTypes()
+                .Where(type => type.GetCustomAttributes(false).Any(o => o.GetType().Name == "GenerateDtoAttribute"))
+				.ToList();
+
+            if (!types.Any())
+            {
+                Write("// No types found");
+                return;
+            }
+            var classes = types.ToDictionary(type => type, type => TypeToString(type));
+
+            foreach (var @class in classes)
+            {
+                fileManager.StartNewFile(@class.Key.Name + ".cs");
+				Write(GetHeader());
+                Write(@class.Value);
+            }
+            
+			fileManager.Process();
+        }
+
+        private string TypeToString(Type type, bool isNested = false, string indentation = "")
+        {
+            var baseExtension = "";
+                var baseClass = type.BaseType;
+                if (baseClass != null && baseClass != typeof(object))
+                {
+                    baseExtension = @" : " + GetTypeString(baseClass);
+                }
+
+            var newlineWithIndent = "\r\n" + indentation;
+
+            var nestedTypes = type.GetNestedTypes();
+			var nameSpaceString = newlineWithIndent + "namespace " + type.Namespace + newlineWithIndent + "{ ";
+            var attributeString = GetAttributeString(type.CustomAttributes);
+            var currentClass =
+                string.Concat(isNested ? string.Empty : nameSpaceString,
+                    string.IsNullOrEmpty(attributeString)
+                            ? String.Empty
+                            : newlineWithIndent + attributeString,
+					newlineWithIndent, "\tpublic class ", GetTypeString(type, false), baseExtension,
+                    newlineWithIndent, "\t{",
+                    nestedTypes.Any()
+                        ? nestedTypes.Aggregate(string.Empty,
+                            (result, t) => result + TypeToString(t, true, indentation + "\t"))
+                        : "\r\n" + WritePublicProperties(type, indentation + "\t\t"),
+                    newlineWithIndent, "\t}",
+                    isNested ? "" : "\r\n}");
+
+            return currentClass;
+        }
+
+        private Assembly GetAssembly(string folderName, string assemblyName)
+        {
+            var relativePathTemplate = string.Format(@"..\{0}\bin\{{0}}\{1}.dll", folderName, assemblyName);
+            string debugPath,
+                releasePath,
+                debugRelativePath = string.Format(relativePathTemplate, "debug"),
+                releaseRelativePath = string.Format(relativePathTemplate, "release");
+
+            try
+            {
+                debugPath = Path.GetFullPath(Host.ResolvePath(debugRelativePath));
+            }
+            catch (FileNotFoundException)
+            {
+                debugPath = null;
+            }
+            try
+            {
+                releasePath = Path.GetFullPath(Host.ResolvePath(releaseRelativePath));
+            }
+            catch (FileNotFoundException)
+            {
+                releasePath = null;
+            }
+
+            if (debugPath == null && releasePath == null)
+            {
+                return null;
+            }
+
+            var debugDllDate = debugPath == null ? DateTime.MinValue : File.GetLastWriteTime(debugPath);
+            var releaseDllDate = releasePath == null ? DateTime.MinValue : File.GetLastWriteTime(releasePath);
+
+            var assemblyDllPath = debugDllDate > releaseDllDate ? debugPath : releasePath;
+            if (assemblyDllPath == null) return null;
+            var assembly = Assembly.LoadFrom(assemblyDllPath);
+
+            return assembly;
+        }
+
+        private string GetHeader()
+        {
+            var header = string.Format(
+                @"//------------------------------------------------------------------------------
+// <auto-generated>
+// {0}
+//
+// {1}
+// {2}
+// </auto-generated>
+//------------------------------------------------------------------------------",
+                ResourceManager.Value.GetString("Template_GeneratedCodeCommentLine1", null),
+                ResourceManager.Value.GetString("Template_GeneratedCodeCommentLine2", null),
+                ResourceManager.Value.GetString("Template_GeneratedCodeCommentLine3", null));
+
+            return header;
+        }
+
+        private string WritePublicProperties(Type type, string indent)
+        {
+            var properties =
+                type.GetProperties()
+                    .Where(
+                        info => info.DeclaringType == type
+                            && info.GetMethod != null && info.GetMethod.IsPublic
+                            && info.SetMethod != null && info.SetMethod.IsPublic
+                            && !info.GetCustomAttributes()
+                                .Any(attribute => attribute.GetType().Name.ToLowerInvariant().Contains("ignore")))
+                    .ToList();
+
+            var propertyStrings = (
+                from propertyInfo in properties
+                let typeString = GetTypeString(propertyInfo.PropertyType)
+                let attributeString = GetAttributeString(propertyInfo.CustomAttributes)
+                select
+                    string.Concat(
+                        string.IsNullOrEmpty(attributeString)
+                            ? String.Empty
+                            : indent + attributeString + Environment.NewLine, indent, "public ", typeString, " ",
+                        propertyInfo.Name, @" { get; set; }")).ToList();
+
+            return string.Join("\r\n", propertyStrings);
+        }
+
+        private string GetAttributeString(IEnumerable<CustomAttributeData> attributes)
+        {
+            return
+                attributes.Where(attribute => attributesToCopy.Contains(attribute.AttributeType))
+                    .Select(data => data.ToString().Replace("= True", "= true").Replace("= False", "= false"))
+                    .Aggregate(string.Empty, string.Concat);
+        }
+
+        private string GetArgumentValueString(object arg)
+        {
+            var type = arg as Type;
+            if (type != null)
+            {
+                return string.Format("typeof({0})", GetTypeString(type));
+            }
+
+            var enumObj = arg as Enum;
+            if (enumObj != null)
+            {
+                return string.Concat(GetTypeString(enumObj.GetType()), ".", enumObj.ToString());
+            }
+
+            return arg.ToString();
+        }
+
+        private string GetTypeString(Type type, bool includeNameSpace = true)
+        {
+            if (type == null)
+            {
+                throw new ArgumentNullException("type");
+            }
+
+            if (type.IsGenericParameter)
+            {
+                return type.Name;
+            }
+
+            var result = includeNameSpace ? type.ToString() : type.Name;
+
+            if (type.IsGenericType && result.Contains("`"))
+            {
+                result = result.Split('`')[0] + "<"
+                    + string.Join(", ", type.GetGenericArguments().Select(t => GetTypeString(t)).ToArray()) + ">";
+            }
+
+            return result.Replace('+', '.');
+        }
+    }
+
+    #>

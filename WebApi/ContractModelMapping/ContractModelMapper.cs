@@ -18,7 +18,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static Customer ToModel(this CustomerCI contract)
+        public static Customer ToModel(this CustomerContract contract)
         {
             if (contract == null)
                 return null;
@@ -37,12 +37,12 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static CustomerCI ToContract(this Customer model)
+        public static CustomerContract ToContract(this Customer model)
         {
             if (model == null)
                 return null;
 
-            var result = new CustomerCI();
+            var result = new CustomerContract();
             result.InjectFrom(model);
 
             // Map any non-identical properties here
@@ -56,13 +56,13 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<CustomerCI> ToContract(this IList<Customer> model)
+        public static IList<CustomerContract> ToContract(this IList<Customer> model)
         {
             if (model == null)
                 return null;
 
             var modelList = model.ToList();
-            var result = modelList.Select(r => new CustomerCI().InjectFrom(r)).Cast<CustomerCI>().ToList();
+            var result = modelList.Select(r => new CustomerContract().InjectFrom(r)).Cast<CustomerContract>().ToList();
 
             return result;
         }
@@ -72,7 +72,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static IList<Customer> ToModel(this IList<CustomerCI> contract)
+        public static IList<Customer> ToModel(this IList<CustomerContract> contract)
         {
             if (contract == null)
                 return null;
@@ -90,12 +90,12 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static HotelCI ToContract(this Hotel model)
+        public static HotelContract ToContract(this Hotel model)
         {
             if (model == null)
                 return null;
 
-            var result = new HotelCI();
+            var result = new HotelContract();
             result.InjectFrom(model);
 
             // Map any non-identical properties here
@@ -109,7 +109,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static Hotel ToModel(this HotelCI contract)
+        public static Hotel ToModel(this HotelContract contract)
         {
             if (contract == null)
                 return null;
@@ -128,13 +128,13 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<HotelCI> ToContract(this IList<Hotel> model)
+        public static IList<HotelContract> ToContract(this IList<Hotel> model)
         {
             if (model == null)
                 return null;
 
             var modelList = model.ToList();
-            var result = modelList.Select(r => new HotelCI().InjectFrom(r)).Cast<HotelCI>().ToList();
+            var result = modelList.Select(r => new HotelContract().InjectFrom(r)).Cast<HotelContract>().ToList();
 
             return result;
         }
@@ -144,7 +144,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static IList<Hotel> ToModel(this IList<HotelCI> contract)
+        public static IList<Hotel> ToModel(this IList<HotelContract> contract)
         {
             if (contract == null)
                 return null;
@@ -162,7 +162,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static Reservation ToModel(this ReservationCI contract)
+        public static Reservation ToModel(this ReservationContract contract)
         {
             if (contract == null)
                 return null;
@@ -181,12 +181,12 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static ReservationCI ToContract(this Reservation model)
+        public static ReservationContract ToContract(this Reservation model)
         {
             if (model == null)
                 return null;
 
-            var result = new ReservationCI();
+            var result = new ReservationContract();
             result.InjectFrom(model);
 
             // Map any non-identical properties here
@@ -200,13 +200,13 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<ReservationCI> ToContract(this IList<Reservation> model)
+        public static IList<ReservationContract> ToContract(this IList<Reservation> model)
         {
             if (model == null)
                 return null;
 
             var modelList = model.ToList();
-            var result = modelList.Select(r => new ReservationCI().InjectFrom(r)).Cast<ReservationCI>().ToList();
+            var result = modelList.Select(r => new ReservationContract().InjectFrom(r)).Cast<ReservationContract>().ToList();
 
             return result;
         }
@@ -216,7 +216,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static IList<Reservation> ToModel(this IList<ReservationCI> contract)
+        public static IList<Reservation> ToModel(this IList<ReservationContract> contract)
         {
             if (contract == null)
                 return null;
@@ -234,7 +234,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static Room ToModel(this RoomCI contract)
+        public static Room ToModel(this RoomContract contract)
         {
             if (contract == null)
                 return null;
@@ -245,7 +245,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
             result.RoomBeds = contract.RoomBeds.Select(b => new RoomBed().InjectFrom(b)).Cast<RoomBed>().ToList();
 
                 //result[i].Reservations = modelList[i].Reservations.Select(
-                //    b => new ReservationCI().InjectFrom(b)).Cast<ReservationCI>().ToList();
+                //    b => new ReservationContract().InjectFrom(b)).Cast<ReservationContract>().ToList();
 
             return result;
         }
@@ -255,12 +255,12 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static RoomCI ToContract(this Room model)
+        public static RoomContract ToContract(this Room model)
         {
             if (model == null)
                 return null;
 
-            var result = new RoomCI();
+            var result = new RoomContract();
             result.InjectFrom(model);
 
             // Map any non-identical properties here
@@ -274,20 +274,20 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<RoomCI> ToContract(this IList<Room> model)
+        public static IList<RoomContract> ToContract(this IList<Room> model)
         {
             if (model == null)
                 return null;
 
             var modelList = model.ToList();
-            var result = modelList.Select(r => new RoomCI().InjectFrom(r)).Cast<RoomCI>().ToList();
+            var result = modelList.Select(r => new RoomContract().InjectFrom(r)).Cast<RoomContract>().ToList();
             for (var i = 0; i < modelList.Count; i++)
             {
                 result[i].RoomBeds = modelList[i].RoomBeds.Select(
-                        b => new RoomBedCI().InjectFrom(b)).Cast<RoomBedCI>().ToList();
+                        b => new RoomBedContract().InjectFrom(b)).Cast<RoomBedContract>().ToList();
 
                 result[i].Reservations = modelList[i].Reservations.Select(
-                        b => new ReservationCI().InjectFrom(b)).Cast<ReservationCI>().ToList();
+                        b => new ReservationContract().InjectFrom(b)).Cast<ReservationContract>().ToList();
             }
 
             return result;
@@ -298,7 +298,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static IList<Room> ToModel(this IList<RoomCI> contract)
+        public static IList<Room> ToModel(this IList<RoomContract> contract)
         {
             if (contract == null)
                 return null;
@@ -324,7 +324,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static RoomBed ToModel(this RoomBedCI contract)
+        public static RoomBed ToModel(this RoomBedContract contract)
         {
             if (contract == null)
                 return null;
@@ -343,12 +343,12 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static RoomBedCI ToContract(this RoomBed model)
+        public static RoomBedContract ToContract(this RoomBed model)
         {
             if (model == null)
                 return null;
 
-            var result = new RoomBedCI();
+            var result = new RoomBedContract();
             result.InjectFrom(model);
 
             // Map any non-identical properties here
@@ -362,13 +362,13 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static IList<RoomBedCI> ToContract(this IList<RoomBed> model)
+        public static IList<RoomBedContract> ToContract(this IList<RoomBed> model)
         {
             if (model == null)
                 return null;
 
             var modelList = model.ToList();
-            var result = modelList.Select(r => new RoomBedCI().InjectFrom(r)).Cast<RoomBedCI>().ToList();
+            var result = modelList.Select(r => new RoomBedContract().InjectFrom(r)).Cast<RoomBedContract>().ToList();
 
             return result;
         }
@@ -378,7 +378,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="contract"></param>
         /// <returns></returns>
-        public static IList<RoomBed> ToModel(this IList<RoomBedCI> contract)
+        public static IList<RoomBed> ToModel(this IList<RoomBedContract> contract)
         {
             if (contract == null)
                 return null;

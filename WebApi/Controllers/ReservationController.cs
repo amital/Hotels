@@ -80,11 +80,11 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         /// <summary>
         /// Adds ... a new Reservation
         /// </summary>
-        /// <param name="Reservation"></param>
+        /// <param name="reservation"></param>
         /// <response code="201">Created</response>
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> AddAsync(ReservationCI reservation)
+        public async Task<IHttpActionResult> AddAsync(ReservationContract reservation)
         {
             await reservationService.AddAsync(reservation.ToModel());
             return Created(new Uri(Request.RequestUri, reservation.ReservationId.ToString()), reservation.ReservationId);
@@ -93,11 +93,11 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         /// <summary>
         /// Updates ... a Reservation
         /// </summary>
-        /// <param name="Reservation"></param>
+        /// <param name="reservation"></param>
         /// <response code="202">Accepted</response>
         [HttpPut]
         [Route("")]
-        public async Task<IHttpActionResult> UpdateAsync(ReservationCI reservation)
+        public async Task<IHttpActionResult> UpdateAsync(ReservationContract reservation)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("Validate")]
         public string Validate(
             [Required] string param1, [MaxLength(2)] string param2,
-            HotelCI param3)
+            HotelContract param3)
         {
             if (param1 == null)
                 return $"This should not happen {nameof(param1)} is null";

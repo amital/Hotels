@@ -22,7 +22,7 @@ namespace PayoneerLogger
 
         class PayoneerNLogImpl : IPayoneerLogger
         {
-            private ILogger nlogLogger = null;
+            private readonly ILogger nlogLogger;
 
             public PayoneerNLogImpl(ILogger nlogLogger)
             {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
 using System.Threading.Tasks;
 using Omu.ValueInjecter;
 using Payoneer.Payoneer.Hotels.Model.HotelsDomain;
@@ -42,11 +41,11 @@ namespace Payoneer.Payoneer.Hotels.Service
             }
         }
 
-        private bool NameIsUnique(IHotelContext context, string name)
-        {
-            var recs =  context.Customers.AsQueryable().Count(h => name.Trim().ToLower() == h.CustomerName.Trim().ToLower());
-            return recs == 0;
-        }
+        //private bool NameIsUnique(IHotelContext context, string name)
+        //{
+        //    var recs =  context.Customers.AsQueryable().Count(h => name.Trim().ToLower() == h.CustomerName.Trim().ToLower());
+        //    return recs == 0;
+        //}
         public async Task DeleteAsync(int id)
         {
             using (var context = DiResolver.Resolve<IHotelContext>())

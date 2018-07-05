@@ -63,11 +63,11 @@ namespace Payoneer.Payoneer.Hotels.Service
             }
         }
 
-        private bool NameIsUnique(IHotelContext context, string name)
-        {
-            var recs = context.Hotels.AsQueryable().Count(h => name.Trim().ToLower() == h.HotelName.Trim().ToLower());
-            return recs == 0;
-        }
+        //private bool NameIsUnique(IHotelContext context, string name)
+        //{
+        //    var recs = context.Hotels.AsQueryable().Count(h => name.Trim().ToLower() == h.HotelName.Trim().ToLower());
+        //    return recs == 0;
+        //}
 
         public async Task DeleteAsync(int id)
         {

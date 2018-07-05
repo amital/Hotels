@@ -2,7 +2,7 @@
 
 namespace Payoneer.Payoneer.Hotels.Contracts
 {
-    public class CustomerCI
+    public class CustomerContract
     {
         public int CustomerId { get; set; }
         [Required]

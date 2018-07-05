@@ -4,7 +4,7 @@ using Payoneer.ServicesInfra.DtoGeneration;
 namespace Payoneer.Payoneer.Hotels.Contracts
 {
     [GenerateDto]
-    public class HotelCI
+    public class HotelContract
     {
         public int HotelId { get; set; }
         [Required]

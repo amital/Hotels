@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Payoneer.Payoneer.Hotels.Contracts
 {
-    public class RoomCI
+    public class RoomContract
     {
         public int RoomId { get; set; }
         public int HotelId { get; set; }
@@ -15,7 +15,7 @@ namespace Payoneer.Payoneer.Hotels.Contracts
         public bool HasBalcony { get; set; }
         [Required]
         public bool PoolFacing { get; set; }
-        public ICollection<RoomBedCI> RoomBeds { get; set; }
-        public ICollection<ReservationCI> Reservations { get; set; }
+        public ICollection<RoomBedContract> RoomBeds { get; set; }
+        public ICollection<ReservationContract> Reservations { get; set; }
     }
 }

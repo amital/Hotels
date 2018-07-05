@@ -4,27 +4,27 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Hotels_WebApiModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="Hotels_WebApiModel1.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Customers">
           <Key>
             <PropertyRef Name="CustomerId" />
           </Key>
-          <Property Name="CustomerId" Type="int" Nullable="false" />
+          <Property Name="CustomerId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CustomerName" Type="nvarchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="Hotels">
           <Key>
             <PropertyRef Name="HotelId" />
           </Key>
-          <Property Name="HotelId" Type="int" Nullable="false" />
+          <Property Name="HotelId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HotelName" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="NumberOfFlors" Type="smallint" Nullable="false" />
+          <Property Name="NumberOfFloors" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Reservations">
           <Key>
             <PropertyRef Name="ReservationId" />
           </Key>
-          <Property Name="ReservationId" Type="int" Nullable="false" />
+          <Property Name="ReservationId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="RoomId" Type="int" Nullable="false" />
           <Property Name="ReservedFrom" Type="datetime" Nullable="false" />
           <Property Name="ReservedTo" Type="datetime" Nullable="false" />
@@ -35,14 +35,14 @@
             <PropertyRef Name="BedId" />
           </Key>
           <Property Name="RoomId" Type="int" Nullable="false" />
-          <Property Name="BedId" Type="int" Nullable="false" />
+          <Property Name="BedId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BedType" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Rooms">
           <Key>
             <PropertyRef Name="RoomId" />
           </Key>
-          <Property Name="RoomId" Type="int" Nullable="false" />
+          <Property Name="RoomId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="HotelId" Type="int" Nullable="false" />
           <Property Name="FloorNumber" Type="smallint" Nullable="false" />
           <Property Name="SizeSqMtr" Type="numeric" Precision="5" Scale="2" Nullable="false" />
@@ -97,7 +97,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Hotels_WebApiModelStoreContainer">
+        <EntityContainer Name="Hotels_WebApiModel1StoreContainer">
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reservations" EntityType="Self.Reservations" Schema="dbo" store:Type="Tables" />
@@ -124,12 +124,12 @@
     </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
-      <Schema Namespace="Hotels_WebApiModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+      <Schema Namespace="Hotels_WebApiModel1" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityType Name="Customer">
           <Key>
             <PropertyRef Name="CustomerId" />
           </Key>
-          <Property Name="CustomerId" Type="Int32" Nullable="false" />
+          <Property Name="CustomerId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CustomerName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Reservations" Relationship="Self.FK_Reservations_Customers" FromRole="Customers" ToRole="Reservations" />
         </EntityType>
@@ -137,16 +137,16 @@
           <Key>
             <PropertyRef Name="HotelId" />
           </Key>
-          <Property Name="HotelId" Type="Int32" Nullable="false" />
+          <Property Name="HotelId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="HotelName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="NumberOfFlors" Type="Int16" Nullable="false" />
+          <Property Name="NumberOfFloors" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Rooms" Relationship="Self.FK_Rooms_Hotels" FromRole="Hotels" ToRole="Rooms" />
         </EntityType>
         <EntityType Name="Reservation">
           <Key>
             <PropertyRef Name="ReservationId" />
           </Key>
-          <Property Name="ReservationId" Type="Int32" Nullable="false" />
+          <Property Name="ReservationId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="RoomId" Type="Int32" Nullable="false" />
           <Property Name="ReservedFrom" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="ReservedTo" Type="DateTime" Nullable="false" Precision="3" />
@@ -159,7 +159,7 @@
             <PropertyRef Name="BedId" />
           </Key>
           <Property Name="RoomId" Type="Int32" Nullable="false" />
-          <Property Name="BedId" Type="Int32" Nullable="false" />
+          <Property Name="BedId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BedType" Type="Int16" Nullable="false" />
           <NavigationProperty Name="Room" Relationship="Self.FK_RoomBeds_Rooms" FromRole="RoomBeds" ToRole="Rooms" />
         </EntityType>
@@ -167,7 +167,7 @@
           <Key>
             <PropertyRef Name="RoomId" />
           </Key>
-          <Property Name="RoomId" Type="Int32" Nullable="false" />
+          <Property Name="RoomId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="HotelId" Type="Int32" Nullable="false" />
           <Property Name="FloorNumber" Type="Int16" Nullable="false" />
           <Property Name="SizeSqMtr" Type="Decimal" Precision="5" Scale="2" Nullable="false" />
@@ -225,7 +225,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="Hotels_WebApiEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="Hotels_WebApiEntities1" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="Hotels" EntityType="Self.Hotel" />
           <EntitySet Name="Reservations" EntityType="Self.Reservation" />
@@ -253,9 +253,9 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="Hotels_WebApiModelStoreContainer" CdmEntityContainer="Hotels_WebApiEntities">
+        <EntityContainerMapping StorageEntityContainer="Hotels_WebApiModel1StoreContainer" CdmEntityContainer="Hotels_WebApiEntities1">
           <EntitySetMapping Name="Customers">
-            <EntityTypeMapping TypeName="Hotels_WebApiModel.Customer">
+            <EntityTypeMapping TypeName="Hotels_WebApiModel1.Customer">
               <MappingFragment StoreEntitySet="Customers">
                 <ScalarProperty Name="CustomerId" ColumnName="CustomerId" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -263,16 +263,16 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Hotels">
-            <EntityTypeMapping TypeName="Hotels_WebApiModel.Hotel">
+            <EntityTypeMapping TypeName="Hotels_WebApiModel1.Hotel">
               <MappingFragment StoreEntitySet="Hotels">
                 <ScalarProperty Name="HotelId" ColumnName="HotelId" />
                 <ScalarProperty Name="HotelName" ColumnName="HotelName" />
-                <ScalarProperty Name="NumberOfFlors" ColumnName="NumberOfFlors" />
+                <ScalarProperty Name="NumberOfFloors" ColumnName="NumberOfFloors" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Reservations">
-            <EntityTypeMapping TypeName="Hotels_WebApiModel.Reservation">
+            <EntityTypeMapping TypeName="Hotels_WebApiModel1.Reservation">
               <MappingFragment StoreEntitySet="Reservations">
                 <ScalarProperty Name="ReservationId" ColumnName="ReservationId" />
                 <ScalarProperty Name="RoomId" ColumnName="RoomId" />
@@ -283,7 +283,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="RoomBeds">
-            <EntityTypeMapping TypeName="Hotels_WebApiModel.RoomBed">
+            <EntityTypeMapping TypeName="Hotels_WebApiModel1.RoomBed">
               <MappingFragment StoreEntitySet="RoomBeds">
                 <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="BedId" ColumnName="BedId" />
@@ -292,7 +292,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Rooms">
-            <EntityTypeMapping TypeName="Hotels_WebApiModel.Room">
+            <EntityTypeMapping TypeName="Hotels_WebApiModel1.Room">
               <MappingFragment StoreEntitySet="Rooms">
                 <ScalarProperty Name="RoomId" ColumnName="RoomId" />
                 <ScalarProperty Name="HotelId" ColumnName="HotelId" />

@@ -44,8 +44,8 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         public async Task<IHttpActionResult> GetAsync(Guid id)
         {
             var result = await exampleService.GetAsync(id);
-            //if(result!=null)
-            //    return Ok(result.ToContract());
+            if (result != null)
+                return Ok(result.ToContract());
             return NotFound();
         }
 

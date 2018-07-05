@@ -15,24 +15,24 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
     /// <summary>
     /// Example Manage Hotels
     /// </summary>
-    [RoutePrefix("api/hotels")] //TODO [Template Init]: Update route
+    [RoutePrefix("api/rooms")] //TODO [Template Init]: Update route
     [ValidationFilter]
-    public class HotelController : ApiController
+    public class RoomController : ApiController
     {
-        private readonly IHotelService hotelService;
+        private readonly IRoomService roomService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="hotelService"></param>
+        /// <param name="roomService"></param>
         [LogExceptions]
-        public HotelController(IHotelService hotelService)
+        public RoomController(IRoomService roomService)
         {
-            this.hotelService = hotelService;
+            this.roomService  = roomService;
         }
 
         /// <summary>
-        /// Gets ... Hotel List
+        /// Gets ... Room List
         /// </summary>
         /// <returns></returns>
         /// <response code="200">OK</response>
@@ -41,14 +41,31 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("")]
         public async Task<IHttpActionResult> GetAsync()
         {
-            var result = await hotelService.GetAsync();
+            var result = await roomService.GetAsync();
+            if (result != null)
+                return Ok(result.ToContract());
+            return NotFound();
+        }
+
+
+        /// <summary>
+        /// Gets ... Room List Available Between FromDate, ToDate
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">OK</response>
+        /// <response code="404">Not Found</response>
+        [HttpGet]
+        [Route("{fromDate}/{toDate}")]
+        public async Task<IHttpActionResult> GetAsync(DateTime fromDate, DateTime toDate)
+        {
+            var result = await roomService.GetAsync(fromDate, toDate);
             if (result != null)
                 return Ok(result.ToContract());
             return NotFound();
         }
 
         /// <summary>
-        /// Deletes ... a Hotel (only if not in use)
+        /// Deletes ... a Room (only if not in use)
         /// </summary>
         /// <param name="id"></param>
         /// <response code="202">Accepted</response>
@@ -56,36 +73,36 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteAsync(int id)
         {
-            await hotelService.DeleteAsync(id);
+            await roomService.DeleteAsync(id);
             return StatusCode(HttpStatusCode.Accepted);
         }
 
         /// <summary>
-        /// Adds ... a new hotel
+        /// Adds ... a new Room
         /// </summary>
-        /// <param name="hotel"></param>
+        /// <param name="room"></param>
         /// <response code="201">Created</response>
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> AddAsync(HotelCI hotel)
+        public async Task<IHttpActionResult> AddAsync(RoomCI room)
         {
-            await hotelService.AddAsync(hotel.ToModel());
-            return Created(new Uri(Request.RequestUri, hotel.HotelId.ToString()), hotel.HotelId);
+            await roomService.AddAsync(room.ToModel());
+            return Created(new Uri(Request.RequestUri, room.RoomId.ToString()), room.RoomId);
         }
 
         /// <summary>
-        /// Updates ... a hotel
+        /// Updates ... a Room
         /// </summary>
-        /// <param name="hotel"></param>
+        /// <param name="room"></param>
         /// <response code="202">Accepted</response>
         [HttpPut]
         [Route("")]
-        public async Task<IHttpActionResult> UpdateAsync(HotelCI hotel)
+        public async Task<IHttpActionResult> UpdateAsync(RoomCI room)
         {
             try
             {
-                await hotelService.UpdateAsync(hotel.ToModel());
-                return Content(HttpStatusCode.Accepted, hotel.HotelId);
+                await roomService.UpdateAsync(room.ToModel());
+                return Content(HttpStatusCode.Accepted, room.RoomId);
             }
             catch (KeyNotFoundException)
             {

@@ -13,10 +13,10 @@ namespace Payoneer.Payoneer.Hotels.Model.HotelsDomain
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class Hotels_WebApiEntities : DbContext
+    public partial class Hotels_WebApiEntities1 : DbContext
     {
-        public Hotels_WebApiEntities()
-            : base("name=Hotels_WebApiEntities")
+        public Hotels_WebApiEntities1()
+            : base("name=Hotels_WebApiEntities1")
         {
         }
     

@@ -1,10 +1,9 @@
-using Common.Logging;
 using Microsoft.Owin;
 using Newtonsoft.Json;
 using Owin;
-using PubComp.Caching.Core;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using NLog;
 using Unity.AspNet.WebApi;
 
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
@@ -19,7 +18,8 @@ namespace Payoneer.Payoneer.Hotels.WebApi
         public void Configuration(IAppBuilder app)
 
         {
-            LogManager.GetLogger(typeof(Startup).FullName).Info("Service is starting...");
+            //ILogger log = LogManager.GetCurrentClassLogger();
+            LogManager.GetCurrentClassLogger().Info("Service is starting...");
 
             var httpConfiguration = new HttpConfiguration();
             httpConfiguration.MapHttpAttributeRoutes();
@@ -38,10 +38,10 @@ namespace Payoneer.Payoneer.Hotels.WebApi
             SwaggerConfig.Register(httpConfiguration);
             httpConfiguration.EnsureInitialized();
 
-            var cacheUtil = new CacheControllerUtil();
-            cacheUtil.RegisterAllCaches();
+            //var cacheUtil = new CacheControllerUtil();
+            //cacheUtil.RegisterAllCaches();
 
-            LogManager.GetLogger(typeof(Startup).FullName).Info("Service has started.");
+            LogManager.GetCurrentClassLogger().Info("Service has started.");
         }
     }
 }

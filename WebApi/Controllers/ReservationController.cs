@@ -13,26 +13,26 @@ using Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping;
 namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
 {
     /// <summary>
-    /// Example Manage Hotels
+    /// Example Manage Reservations
     /// </summary>
-    [RoutePrefix("api/hotels")] //TODO [Template Init]: Update route
+    [RoutePrefix("api/reservations")] //TODO [Template Init]: Update route
     [ValidationFilter]
-    public class HotelController : ApiController
+    public class ReservationController : ApiController
     {
-        private readonly IHotelService hotelService;
+        private readonly IReservationService reservationService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="hotelService"></param>
+        /// <param name="reservationService"></param>
         [LogExceptions]
-        public HotelController(IHotelService hotelService)
+        public ReservationController(IReservationService reservationService)
         {
-            this.hotelService = hotelService;
+            this.reservationService  = reservationService;
         }
 
         /// <summary>
-        /// Gets ... Hotel List
+        /// Gets ... Reservation List
         /// </summary>
         /// <returns></returns>
         /// <response code="200">OK</response>
@@ -41,14 +41,31 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("")]
         public async Task<IHttpActionResult> GetAsync()
         {
-            var result = await hotelService.GetAsync();
+            var result = await reservationService.GetAsync();
+            if (result != null)
+                return Ok(result.ToContract());
+            return NotFound();
+        }
+
+
+        /// <summary>
+        /// Gets ... Reservation List for a given date
+        /// </summary>
+        /// <returns></returns>
+        /// <response code="200">OK</response>
+        /// <response code="404">Not Found</response>
+        [HttpGet]
+        [Route("{date}")]
+        public async Task<IHttpActionResult> GetAsync(DateTime date)
+        {
+            var result = await reservationService.GetAsync(date);
             if (result != null)
                 return Ok(result.ToContract());
             return NotFound();
         }
 
         /// <summary>
-        /// Deletes ... a Hotel (only if not in use)
+        /// Deletes ... a Reservation (only if not in use)
         /// </summary>
         /// <param name="id"></param>
         /// <response code="202">Accepted</response>
@@ -56,36 +73,36 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteAsync(int id)
         {
-            await hotelService.DeleteAsync(id);
+            await reservationService.DeleteAsync(id);
             return StatusCode(HttpStatusCode.Accepted);
         }
 
         /// <summary>
-        /// Adds ... a new hotel
+        /// Adds ... a new Reservation
         /// </summary>
-        /// <param name="hotel"></param>
+        /// <param name="Reservation"></param>
         /// <response code="201">Created</response>
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> AddAsync(HotelCI hotel)
+        public async Task<IHttpActionResult> AddAsync(ReservationCI reservation)
         {
-            await hotelService.AddAsync(hotel.ToModel());
-            return Created(new Uri(Request.RequestUri, hotel.HotelId.ToString()), hotel.HotelId);
+            await reservationService.AddAsync(reservation.ToModel());
+            return Created(new Uri(Request.RequestUri, reservation.ReservationId.ToString()), reservation.ReservationId);
         }
 
         /// <summary>
-        /// Updates ... a hotel
+        /// Updates ... a Reservation
         /// </summary>
-        /// <param name="hotel"></param>
+        /// <param name="Reservation"></param>
         /// <response code="202">Accepted</response>
         [HttpPut]
         [Route("")]
-        public async Task<IHttpActionResult> UpdateAsync(HotelCI hotel)
+        public async Task<IHttpActionResult> UpdateAsync(ReservationCI reservation)
         {
             try
             {
-                await hotelService.UpdateAsync(hotel.ToModel());
-                return Content(HttpStatusCode.Accepted, hotel.HotelId);
+                await reservationService.UpdateAsync(reservation.ToModel());
+                return Content(HttpStatusCode.Accepted, reservation.ReservationId);
             }
             catch (KeyNotFoundException)
             {

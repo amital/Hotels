@@ -1,12 +1,10 @@
+using System.Collections.Generic;
 using System.Linq;
 using Omu.ValueInjecter;
 using Payoneer.Payoneer.Hotels.Contracts;
-using Payoneer.Payoneer.Hotels.Model.ExampleDomain;
-using Payoneer.Payoneer.Hotels.Model.ExampleDomain2;
+//using Payoneer.Payoneer.Hotels.Model.ExampleDomain;
+//using Payoneer.Payoneer.Hotels.Model.ExampleDomain2;
 using Payoneer.Payoneer.Hotels.Model.HotelsDomain;
-using Payoneer.ServicesInfra.DependencyInjection.Resolving;
-using Payoneer.ServicesInfra.Repositories;
-using PubComp.Caching.AopCaching;
 
 namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
 {
@@ -52,6 +50,60 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
 
             return result;
         }
+
+        /// <summary>
+        /// Maps model to contract
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static IList<CustomerCI> ToContract(this IList<Customer> model)
+        {
+            if (model == null)
+                return null;
+
+            var modelList = model.ToList();
+            var result = modelList.Select(r => new CustomerCI().InjectFrom(r)).Cast<CustomerCI>().ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Maps contract to model
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static IList<Customer> ToModel(this IList<CustomerCI> contract)
+        {
+            if (contract == null)
+                return null;
+
+            var contractList = contract.ToList();
+            var result = contractList.Select(r => new Customer().InjectFrom(r)).Cast<Customer>().ToList();
+
+            return result;
+        }
+
+        /*========================================*/
+
+        /// <summary>
+        /// Maps model to contract
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static HotelCI ToContract(this Hotel model)
+        {
+            if (model == null)
+                return null;
+
+            var result = new HotelCI();
+            result.InjectFrom(model);
+
+            // Map any non-identical properties here
+            //result.LookupName = LookupDataNameById(model.LookupDataId);
+
+            return result;
+        }
+
         /// <summary>
         /// Maps contract to model
         /// </summary>
@@ -76,19 +128,35 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        public static HotelCI ToContract(this Hotel model)
+        public static IList<HotelCI> ToContract(this IList<Hotel> model)
         {
             if (model == null)
                 return null;
 
-            var result = new HotelCI();
-            result.InjectFrom(model);
-
-            // Map any non-identical properties here
-            //result.LookupName = LookupDataNameById(model.LookupDataId);
+            var modelList = model.ToList();
+            var result = modelList.Select(r => new HotelCI().InjectFrom(r)).Cast<HotelCI>().ToList();
 
             return result;
         }
+
+        /// <summary>
+        /// Maps contract to model
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static IList<Hotel> ToModel(this IList<HotelCI> contract)
+        {
+            if (contract == null)
+                return null;
+
+            var contractList = contract.ToList();
+            var result = contractList.Select(r => new Hotel().InjectFrom(r)).Cast<Hotel>().ToList();
+
+            return result;
+        }
+
+        /*========================================*/
+
         /// <summary>
         /// Maps contract to model
         /// </summary>
@@ -126,6 +194,41 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
 
             return result;
         }
+
+        /// <summary>
+        /// Maps model to contract
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static IList<ReservationCI> ToContract(this IList<Reservation> model)
+        {
+            if (model == null)
+                return null;
+
+            var modelList = model.ToList();
+            var result = modelList.Select(r => new ReservationCI().InjectFrom(r)).Cast<ReservationCI>().ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Maps contract to model
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static IList<Reservation> ToModel(this IList<ReservationCI> contract)
+        {
+            if (contract == null)
+                return null;
+
+            var contractList = contract.ToList();
+            var result = contractList.Select(r => new Reservation().InjectFrom(r)).Cast<Reservation>().ToList();
+
+            return result;
+        }
+
+        /*========================================*/
+
         /// <summary>
         /// Maps contract to model
         /// </summary>
@@ -139,8 +242,10 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
             var result = new Room();
             result.InjectFrom(contract);
 
-            // Map any non-identical properties here
-            //result.LookupDataId = LookupDataNameById(contract.LookupName);
+            result.RoomBeds = contract.RoomBeds.Select(b => new RoomBed().InjectFrom(b)).Cast<RoomBed>().ToList();
+
+                //result[i].Reservations = modelList[i].Reservations.Select(
+                //    b => new ReservationCI().InjectFrom(b)).Cast<ReservationCI>().ToList();
 
             return result;
         }
@@ -163,6 +268,57 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
 
             return result;
         }
+
+        /// <summary>
+        /// Maps model to contract
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static IList<RoomCI> ToContract(this IList<Room> model)
+        {
+            if (model == null)
+                return null;
+
+            var modelList = model.ToList();
+            var result = modelList.Select(r => new RoomCI().InjectFrom(r)).Cast<RoomCI>().ToList();
+            for (var i = 0; i < modelList.Count; i++)
+            {
+                result[i].RoomBeds = modelList[i].RoomBeds.Select(
+                        b => new RoomBedCI().InjectFrom(b)).Cast<RoomBedCI>().ToList();
+
+                result[i].Reservations = modelList[i].Reservations.Select(
+                        b => new ReservationCI().InjectFrom(b)).Cast<ReservationCI>().ToList();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// Maps contract to model
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static IList<Room> ToModel(this IList<RoomCI> contract)
+        {
+            if (contract == null)
+                return null;
+
+            var contractList = contract.ToList();
+            var result = contractList.Select(r => new Room().InjectFrom(r)).Cast<Room>().ToList();
+            for (var i = 0; i < contractList.Count; i++)
+            {
+                result[i].RoomBeds = contractList[i].RoomBeds.Select(
+                    b => new RoomBed().InjectFrom(b)).Cast<RoomBed>().ToList();
+
+                result[i].Reservations = contractList[i].Reservations.Select(
+                    b => new Reservation().InjectFrom(b)).Cast<Reservation>().ToList();
+            }
+
+            return result;
+        }
+
+        /*========================================*/
+
         /// <summary>
         /// Maps contract to model
         /// </summary>
@@ -202,6 +358,40 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
         }
 
         /// <summary>
+        /// Maps model to contract
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static IList<RoomBedCI> ToContract(this IList<RoomBed> model)
+        {
+            if (model == null)
+                return null;
+
+            var modelList = model.ToList();
+            var result = modelList.Select(r => new RoomBedCI().InjectFrom(r)).Cast<RoomBedCI>().ToList();
+
+            return result;
+        }
+
+        /// <summary>
+        /// Maps contract to model
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static IList<RoomBed> ToModel(this IList<RoomBedCI> contract)
+        {
+            if (contract == null)
+                return null;
+
+            var contractList = contract.ToList();
+            var result = contractList.Select(r => new RoomBed().InjectFrom(r)).Cast<RoomBed>().ToList();
+
+            return result;
+        }
+
+        /***********************************************************************************************************
+
+        /// <summary>
         /// Maps contract to model
         /// </summary>
         /// <param name="contract"></param>
@@ -233,7 +423,41 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
             return result;
         }
 
-        [Cache("localCacheDictionaries")]
+
+        /// <summary>
+        /// Maps contract to model
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
+        public static ExampleContract ToContract(this ExampleModel contract)
+        {
+            if (contract == null)
+                return null;
+
+            var result = new ExampleContract();
+            result.InjectFrom(contract);
+
+            return result;
+        }
+
+        /// <summary>
+        /// Maps model to contract
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        public static ExampleModel ToModel(this ExampleContract model)
+        {
+            if (model == null)
+                return null;
+
+            var result = new ExampleModel();
+            result.InjectFrom(model);
+
+            return result;
+        }
+
+
+       [Cache("localCacheDictionaries")]
         private static string LookupDataNameById(short? id)
         {
             using (var uow = new UnitOfWork())
@@ -268,5 +492,6 @@ namespace Payoneer.Payoneer.Hotels.WebApi.ContractModelMapping
                 return result;
             }
         }
+        */
     }
 }

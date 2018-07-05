@@ -15,24 +15,24 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
     /// <summary>
     /// Example Manage Hotels
     /// </summary>
-    [RoutePrefix("api/hotels")] //TODO [Template Init]: Update route
+    [RoutePrefix("api/customers")] //TODO [Template Init]: Update route
     [ValidationFilter]
-    public class HotelController : ApiController
+    public class CustomerController : ApiController
     {
-        private readonly IHotelService hotelService;
+        private readonly ICustomerService customerService;
 
         /// <summary>
         /// Constructor
         /// </summary>
-        /// <param name="hotelService"></param>
+        /// <param name="customerService"></param>
         [LogExceptions]
-        public HotelController(IHotelService hotelService)
+        public CustomerController(ICustomerService customerService)
         {
-            this.hotelService = hotelService;
+            this.customerService  = customerService;
         }
 
         /// <summary>
-        /// Gets ... Hotel List
+        /// Gets ... Customers List
         /// </summary>
         /// <returns></returns>
         /// <response code="200">OK</response>
@@ -41,14 +41,14 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("")]
         public async Task<IHttpActionResult> GetAsync()
         {
-            var result = await hotelService.GetAsync();
+            var result = await customerService.GetAsync();
             if (result != null)
                 return Ok(result.ToContract());
             return NotFound();
         }
 
         /// <summary>
-        /// Deletes ... a Hotel (only if not in use)
+        /// Deletes ... a Customer (only if not in use)
         /// </summary>
         /// <param name="id"></param>
         /// <response code="202">Accepted</response>
@@ -56,36 +56,36 @@ namespace Payoneer.Payoneer.Hotels.WebApi.Controllers
         [Route("{id}")]
         public async Task<IHttpActionResult> DeleteAsync(int id)
         {
-            await hotelService.DeleteAsync(id);
+            await customerService.DeleteAsync(id);
             return StatusCode(HttpStatusCode.Accepted);
         }
 
         /// <summary>
-        /// Adds ... a new hotel
+        /// Adds ... a new customer
         /// </summary>
-        /// <param name="hotel"></param>
+        /// <param name="customer"></param>
         /// <response code="201">Created</response>
         [HttpPost]
         [Route("")]
-        public async Task<IHttpActionResult> AddAsync(HotelCI hotel)
+        public async Task<IHttpActionResult> AddAsync(CustomerCI customer)
         {
-            await hotelService.AddAsync(hotel.ToModel());
-            return Created(new Uri(Request.RequestUri, hotel.HotelId.ToString()), hotel.HotelId);
+            await customerService.AddAsync(customer.ToModel());
+            return Created(new Uri(Request.RequestUri, customer.CustomerId.ToString()), customer.CustomerId);
         }
 
         /// <summary>
-        /// Updates ... a hotel
+        /// Updates ... a customer
         /// </summary>
-        /// <param name="hotel"></param>
+        /// <param name="customer"></param>
         /// <response code="202">Accepted</response>
         [HttpPut]
         [Route("")]
-        public async Task<IHttpActionResult> UpdateAsync(HotelCI hotel)
+        public async Task<IHttpActionResult> UpdateAsync(CustomerCI customer)
         {
             try
             {
-                await hotelService.UpdateAsync(hotel.ToModel());
-                return Content(HttpStatusCode.Accepted, hotel.HotelId);
+                await customerService.UpdateAsync(customer.ToModel());
+                return Content(HttpStatusCode.Accepted, customer.CustomerId);
             }
             catch (KeyNotFoundException)
             {

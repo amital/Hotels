@@ -33,12 +33,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
-    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\Unity.5.5.5\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
@@ -52,7 +46,7 @@
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
-      <HintPath>..\packages\NLog.4.4.12\lib\net45\NLog.dll</HintPath>
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
     </Reference>
     <Reference Include="Payoneer.ServicesInfra.DependencyInjection.Registering, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Payoneer.ServicesInfra.DependencyInjection.Registering.2.1.0\lib\net451\Payoneer.ServicesInfra.DependencyInjection.Registering.dll</HintPath>
@@ -63,8 +57,8 @@
     <Reference Include="Payoneer.ServicesInfra.Repositories.EF, Version=21.5.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Payoneer.ServicesInfra.Repositories.EF.21.5.0\lib\net451\Payoneer.ServicesInfra.Repositories.EF.dll</HintPath>
     </Reference>
-    <Reference Include="Payoneer.ServicesInfra.Shared, Version=21.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Payoneer.ServicesInfra.Shared.21.1.0\lib\net45\Payoneer.ServicesInfra.Shared.dll</HintPath>
+    <Reference Include="Payoneer.ServicesInfra.Shared, Version=21.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Payoneer.ServicesInfra.Shared.21.1.1\lib\net45\Payoneer.ServicesInfra.Shared.dll</HintPath>
     </Reference>
     <Reference Include="PostSharp, Version=5.0.44.0, Culture=neutral, PublicKeyToken=b13fd38b8f9c99d7, processorArchitecture=MSIL">
       <HintPath>..\packages\PostSharp.Redist.5.0.44\lib\net45\PostSharp.dll</HintPath>
@@ -81,8 +75,11 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -117,42 +114,37 @@
     </Compile>
     <Compile Include="AspectPriorities.cs" />
     <Compile Include="BedTypes.cs" />
-    <Compile Include="ExampleDomain2\ExampleMessageModel.cs" />
-    <Compile Include="ExampleDomain\LookupData.cs" />
-    <Compile Include="ExampleDomain\ExampleModel.cs" />
-    <Compile Include="ExampleDomain\ExampleDomainContext.cs" />
-    <Compile Include="ExampleDomain\IExampleDomainContext.cs" />
     <Compile Include="HotelsDomain\Customer.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
     <Compile Include="HotelsDomain\Hotel.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
     <Compile Include="HotelsDomain\HotelContext.cs" />
     <Compile Include="HotelsDomain\IHotelContext.cs" />
-    <Compile Include="HotelsDomain\Model1.Context.cs">
+    <Compile Include="HotelsDomain\Model2.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.Context.tt</DependentUpon>
+      <DependentUpon>Model2.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="HotelsDomain\Model1.cs">
+    <Compile Include="HotelsDomain\Model2.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
-    <Compile Include="HotelsDomain\Model1.Designer.cs">
+    <Compile Include="HotelsDomain\Model2.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Model1.edmx</DependentUpon>
+      <DependentUpon>Model2.edmx</DependentUpon>
     </Compile>
     <Compile Include="HotelsDomain\Reservation.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
     <Compile Include="HotelsDomain\Room.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
     <Compile Include="HotelsDomain\RoomBed.cs">
-      <DependentUpon>Model1.tt</DependentUpon>
+      <DependentUpon>Model2.tt</DependentUpon>
     </Compile>
     <Compile Include="Model1.Context.cs">
       <AutoGen>True</AutoGen>
@@ -167,13 +159,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="HotelsDomain\Model1.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Model1.Designer.cs</LastGenOutput>
-    </EntityDeploy>
     <None Include="App.Config" />
-    <None Include="HotelsDomain\Model1.edmx.diagram">
-      <DependentUpon>Model1.edmx</DependentUpon>
+    <EntityDeploy Include="HotelsDomain\Model2.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Model2.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="HotelsDomain\Model2.edmx.diagram">
+      <DependentUpon>Model2.edmx</DependentUpon>
     </None>
     <None Include="packages.config">
       <SubType>Designer</SubType>
@@ -181,15 +173,15 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Content Include="HotelsDomain\Model1.Context.tt">
+    <Content Include="HotelsDomain\Model2.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.Context.cs</LastGenOutput>
+      <DependentUpon>Model2.edmx</DependentUpon>
+      <LastGenOutput>Model2.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="HotelsDomain\Model1.tt">
+    <Content Include="HotelsDomain\Model2.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Model1.edmx</DependentUpon>
-      <LastGenOutput>Model1.cs</LastGenOutput>
+      <DependentUpon>Model2.edmx</DependentUpon>
+      <LastGenOutput>Model2.cs</LastGenOutput>
     </Content>
     <Content Include="Model1.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

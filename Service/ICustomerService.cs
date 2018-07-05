@@ -4,11 +4,11 @@ using Payoneer.Payoneer.Hotels.Model.HotelsDomain;
 
 namespace Payoneer.Payoneer.Hotels.Service
 {
-    public interface IHotelService
+    public interface ICustomerService
     {
-        Task AddAsync(Hotel hotel);
-        Task<IList<Hotel>> GetAsync();
-        Task UpdateAsync(Hotel hotel);
+        Task AddAsync(Customer customer);
+        Task<IList<Customer>> GetAsync();
+        Task UpdateAsync(Customer customer);
         Task DeleteAsync(int id);
     }
 }

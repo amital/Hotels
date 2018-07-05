@@ -8,50 +8,50 @@ using Payoneer.ServicesInfra.DependencyInjection.Resolving;
 
 namespace Payoneer.Payoneer.Hotels.Service
 {
-    public class HotelService : IHotelService
+    public class CustomerService : ICustomerService
     {
-        public async Task AddAsync(Hotel hotel)
+        public async Task AddAsync(Customer customer)
         {
             using (var context = DiResolver.Resolve<IHotelContext>())
             {
-                context.Hotels.Add(hotel);
+                context.Customers.Add(customer);
                 await context.ApplyChangesAsync();
             }
         }
 
-        public async Task<IList<Hotel>> GetAsync()
+        public async Task<IList<Customer>> GetAsync()
         {
             using (var context = DiResolver.Resolve<IHotelContext>())
             {
-                return await context.Hotels.AsQueryable().ToListAsync();
+                return await context.Customers.AsQueryable().ToListAsync();
             }
         }
 
-        public async Task UpdateAsync(Hotel hotel)
+        public async Task UpdateAsync(Customer customer)
         {
             using (var context = DiResolver.Resolve<IHotelContext>())
             {
-                var existing = await context.Hotels.AsQueryable().SingleOrDefaultAsync(x => x.HotelId == hotel.HotelId);
+                var existing = await context.Customers.AsQueryable().SingleOrDefaultAsync(x => x.CustomerId == customer.CustomerId);
                 if (existing == null)
                 {
-                    throw new KeyNotFoundException($"No record found with {nameof(Hotel.HotelId)} {hotel.HotelId}");
+                    throw new KeyNotFoundException($"No record found with {nameof(customer.CustomerId)} {customer.CustomerId}");
                 }
 
-                existing.InjectFrom(hotel);
+                existing.InjectFrom(customer);
                 await context.ApplyChangesAsync();
             }
         }
 
         private bool NameIsUnique(IHotelContext context, string name)
         {
-            var recs =  context.Hotels.AsQueryable().Count(h => name.Trim().ToLower() == h.HotelName.Trim().ToLower());
+            var recs =  context.Customers.AsQueryable().Count(h => name.Trim().ToLower() == h.CustomerName.Trim().ToLower());
             return recs == 0;
         }
         public async Task DeleteAsync(int id)
         {
             using (var context = DiResolver.Resolve<IHotelContext>())
             {
-                context.Hotels.Delete(e => e.HotelId == id);
+                context.Customers.Delete(e => e.CustomerId == id);
                 await context.ApplyChangesAsync();
             }
         }
@@ -62,21 +62,21 @@ namespace Payoneer.Payoneer.Hotels.Service
         /// </summary>
         /// <param name="ids"></param>
         /// <returns></returns>
-        [CacheList("localCacheLRU", typeof(HotelKeyConverter))]
-        private async Task<IList<Hotel>> Get(IList<Guid> ids)
+        [CacheList("localCacheLRU", typeof(customerKeyConverter))]
+        private async Task<IList<customer>> Get(IList<Guid> ids)
         {
-            List<Hotel> result;
-            using (var context = DiResolver.Resolve<IHotelContext>())
+            List<customer> result;
+            using (var context = DiResolver.Resolve<IcustomerContext>())
             {
-                result = await context.Hotels.AsQueryable().Where(ent => ids.Contains(ent.Id)).ToListAsync();
+                result = await context.customers.AsQueryable().Where(ent => ids.Contains(ent.Id)).ToListAsync();
             }
 
             return result;
         }
 
-        private class HotelKeyConverter : IDataKeyConverter<Guid, Hotel>
+        private class customerKeyConverter : IDataKeyConverter<Guid, customer>
         {
-            public Guid GetKey(Hotel data)
+            public Guid GetKey(customer data)
             {
                 return data.Id;
             }

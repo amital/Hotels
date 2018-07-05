@@ -1,5 +1,5 @@
 using NLog;
-using Payoneer.Payoneer.Hotels.Model.ExampleDomain;
+//using Payoneer.Payoneer.Hotels.Model.ExampleDomain;
 using Payoneer.Payoneer.Hotels.Service;
 using Payoneer.ServicesInfra.DependencyInjection.Registering;
 using Payoneer.ServicesInfra.DependencyInjection.Unity;
@@ -56,8 +56,12 @@ namespace Payoneer.Payoneer.Hotels.WebApi
 
             RegisterHealthMonitors(di);
 
-            // One instance
-            di.RegisterAsSingleInstance<IExampleService>(() => new ExampleService());
+            // One instance of my Controllers
+            //di.RegisterAsSingleInstance<IExampleService>(() => new ExampleService());
+            di.RegisterAsSingleInstance<IHotelService>(() => new HotelService());
+            di.RegisterAsSingleInstance<ICustomerService>(() => new CustomerService());
+            di.RegisterAsSingleInstance<IRoomService>(() => new RoomService());
+            di.RegisterAsSingleInstance<IReservationService>(() => new ReservationService());
         }
 
         private static void RegisterHealthMonitors(DiRegistrar di)
@@ -71,8 +75,6 @@ namespace Payoneer.Payoneer.Hotels.WebApi
             //di.RegisterAsTransient<IDictionariesEntities, DictionariesEntities>();
             di.RegisterAsTransient<IHotelContext, HotelContext>();
 
-            // TODO: [NewApp] Register DB contexts here
-            // TODO: [NewApp] Add connection strings to Web.config and transform files e.g. Web.DEV.config
         }
     }
 }

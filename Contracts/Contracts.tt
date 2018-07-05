@@ -4,5 +4,5 @@
 <#@ output extension=".cs"#>
 <#
     var generator = new DtoGenerator(this, Host);
-    generator.Generate("Contracts", "Payoneer.Payoneer.Hotels.Contracts");
+    generator.Generate("Contracts.Internal", "Payoneer.Payoneer.Hotels.Contracts.Internal");
 #>

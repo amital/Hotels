@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 using Payoneer.ServicesInfra.Repositories;
 using Payoneer.ServicesInfra.Repositories.EF;
+// ReSharper disable UnusedAutoPropertyAccessor.Local -  db model readonly
 
 namespace Payoneer.Payoneer.Hotels.Model.HotelsDomain
 {

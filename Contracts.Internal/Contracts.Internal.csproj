@@ -30,30 +30,32 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Common.Logging, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.3.4.1\lib\net40\Common.Logging.dll</HintPath>
-    </Reference>
-    <Reference Include="Common.Logging.Core, Version=3.4.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
-      <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
-    </Reference>
     <Reference Include="CommonServiceLocator, Version=2.0.2.0, Culture=neutral, PublicKeyToken=489b6accfaf20ef0, processorArchitecture=MSIL">
       <HintPath>..\packages\CommonServiceLocator.2.0.2\lib\net45\CommonServiceLocator.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c, processorArchitecture=MSIL">
+      <HintPath>..\packages\NLog.4.5.6\lib\net45\NLog.dll</HintPath>
+    </Reference>
     <Reference Include="Payoneer.ServicesInfra.DtoGeneration, Version=21.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Payoneer.ServicesInfra.DtoGeneration.21.0.0\lib\net451\Payoneer.ServicesInfra.DtoGeneration.dll</HintPath>
     </Reference>
-    <Reference Include="Payoneer.ServicesInfra.Shared, Version=21.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Payoneer.ServicesInfra.Shared.21.1.0\lib\net45\Payoneer.ServicesInfra.Shared.dll</HintPath>
+    <Reference Include="Payoneer.ServicesInfra.Shared, Version=21.1.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Payoneer.ServicesInfra.Shared.21.1.1\lib\net45\Payoneer.ServicesInfra.Shared.dll</HintPath>
     </Reference>
     <Reference Include="Payoneer.ServicesInfra.Validation, Version=23.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Payoneer.ServicesInfra.Validation.23.1.0\lib\net451\Payoneer.ServicesInfra.Validation.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -66,8 +68,6 @@
       <Link>Properties\VersionInfo.cs</Link>
     </Compile>
     <Compile Include="CustomerCI.cs" />
-    <Compile Include="ExampleContract.cs" />
-    <Compile Include="ExampleMessage.cs" />
     <Compile Include="HotelCI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReservationCI.cs" />

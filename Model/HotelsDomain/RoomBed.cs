@@ -7,6 +7,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.ComponentModel.DataAnnotations;
+
 namespace Payoneer.Payoneer.Hotels.Model.HotelsDomain
 {
     using System;
@@ -15,6 +17,7 @@ namespace Payoneer.Payoneer.Hotels.Model.HotelsDomain
     public partial class RoomBed
     {
         public int RoomId { get; set; }
+        [Key]
         public int BedId { get; set; }
         public short BedType { get; set; }
     

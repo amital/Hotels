@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Payoneer.ServicesInfra.DtoGeneration;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Payoneer.Payoneer.Hotels.Contracts
 {
@@ -15,5 +15,7 @@ namespace Payoneer.Payoneer.Hotels.Contracts
         public bool HasBalcony { get; set; }
         [Required]
         public bool PoolFacing { get; set; }
+        public ICollection<RoomBedCI> RoomBeds { get; set; }
+        public ICollection<ReservationCI> Reservations { get; set; }
     }
 }

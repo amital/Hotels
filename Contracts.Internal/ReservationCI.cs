@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using Payoneer.ServicesInfra.DtoGeneration;
 
 namespace Payoneer.Payoneer.Hotels.Contracts
 {
